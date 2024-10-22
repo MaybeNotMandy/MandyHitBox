@@ -1,0 +1,47 @@
+-- Variáveis
+local targetObject = workspace:FindFirstChild("TrollPrism")
+local hitboxSize = Vector3.new(25, 25, 25)  -- Tamanho da hitbox
+
+-- Verifica se o objeto alvo existe
+if targetObject then
+    -- Cria a hitbox
+    local hitbox = Instance.new("Part")
+    hitbox.Size = hitboxSize
+    hitbox.Color = Color3.fromRGB(255, 0, 0)  -- Cor vermelha
+    hitbox.Anchored = true
+    hitbox.CanCollide = false
+    hitbox.Transparency = 0.5  -- Levemente transparente
+    hitbox.Material = Enum.Material.SmoothPlastic
+    hitbox.Parent = workspace
+
+    -- Função para adicionar textura em cada face da hitbox
+    local function addTexture(face)
+        local texture = Instance.new("Texture")
+        texture.Texture = "rbxassetid://102681111497143"  -- Substitua pelo ID de textura válido
+        texture.StudsPerTileU = 25  -- Ajuste para repetir em toda a face
+        texture.StudsPerTileV = 25
+        texture.Face = face  -- Aplica a textura na face específica
+        texture.Parent = hitbox
+    end
+
+    -- Adiciona a textura para todas as faces
+    addTexture(Enum.NormalId.Front)
+    addTexture(Enum.NormalId.Back)
+    addTexture(Enum.NormalId.Left)
+    addTexture(Enum.NormalId.Right)
+    addTexture(Enum.NormalId.Top)
+    addTexture(Enum.NormalId.Bottom)
+
+    -- Função para seguir o objeto alvo
+    local function followTarget()
+        while targetObject and targetObject.Parent do
+            hitbox.CFrame = targetObject.CFrame  -- Faz a hitbox seguir o objeto
+            wait()  -- Pequeno intervalo para atualizar a posição
+        end
+    end
+
+    -- Inicia a função de seguir
+    followTarget()
+else
+    warn("Objeto TrollPrism não encontrado no workspace!")
+end
